@@ -27,33 +27,6 @@ function setAccentColor(hex) {
   document.documentElement.style.setProperty('--accent', hex);
 }
 
-// Helper: Renders portrait <img> with automatic fallback to initial emblem
-function renderCharacterVisual(char, imgClass, emblemClass) {
-  const initial = char.name.charAt(0);
-  const basePath = `./assets/characters/${char.id}`;
-  return `
-    <img
-      src="${basePath}.png"
-      alt="${char.name}"
-      class="${imgClass}"
-      loading="lazy"
-      data-step="0"
-      onerror="
-        const exts = ['.jpg', '.jpeg', '.webp'];
-        const step = parseInt(this.dataset.step, 10);
-        if (step < exts.length) {
-          this.dataset.step = step + 1;
-          this.src = '${basePath}' + exts[step];
-        } else {
-          this.style.display = 'none';
-          this.nextElementSibling.style.display = 'block';
-        }
-      "
-    />
-    <div class="${emblemClass}" style="display: none;">${initial}</div>
-  `;
-}
-
 // =====================================================================
 // 1. RENDER HOME PAGE (5 UNIVERSE GATEWAYS)
 // =====================================================================
@@ -138,7 +111,7 @@ function openUniverse(anime) {
         <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">APEX</span>
       </div>
       <div class="pillar-visual">
-        ${renderCharacterVisual(char, 'pillar-portrait', 'pillar-emblem')}
+        <div class="pillar-emblem">${char.name.charAt(0)}</div>
       </div>
       <div class="pillar-bottom">
         <span class="pillar-epithet">${char.epithet}</span>
@@ -212,7 +185,7 @@ function openUniverse(anime) {
         <span class="role-pill ${roleClass}">${char.role.toUpperCase()} // SPECIAL</span>
       </div>
       <div class="special-visual">
-        ${renderCharacterVisual(char, 'special-portrait', 'special-emblem')}
+        <div class="special-emblem">${char.name.charAt(0)}</div>
       </div>
       <div>
         <h4>${char.name}</h4>
@@ -292,17 +265,12 @@ function openDossier(char, animeTitle, tierLabel) {
     .join('');
 
   dossierContent.innerHTML = `
-    <div class="dossier-header-flex">
-      <div>
-        <div style="display: flex; gap: 0.6rem; align-items: center; margin-bottom: 0.5rem;">
-          <span class="role-pill ${roleClass}">${char.role.toUpperCase()}</span>
-          <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">${animeTitle.toUpperCase()} // ${tierLabel}</span>
-        </div>
-        <h2 class="dossier-title" style="color: ${char.color};">${char.name}</h2>
-        <span class="pillar-epithet" style="font-size: 0.85rem;">${char.epithet}</span>
-      </div>
-      ${char.image ? `<img src="${char.image}" alt="${char.name}" class="dossier-portrait" onerror="this.style.display='none'" />` : ''}
+    <div style="display: flex; gap: 0.6rem; align-items: center; margin-bottom: 0.5rem;">
+      <span class="role-pill ${roleClass}">${char.role.toUpperCase()}</span>
+      <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">${animeTitle.toUpperCase()} // ${tierLabel}</span>
     </div>
+    <h2 class="dossier-title" style="color: ${char.color};">${char.name}</h2>
+    <span class="pillar-epithet" style="font-size: 0.85rem;">${char.epithet}</span>
 
     <blockquote class="dossier-quote">"${char.quote}"</blockquote>
 
