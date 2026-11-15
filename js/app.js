@@ -30,16 +30,25 @@ function setAccentColor(hex) {
 // Helper: Renders portrait <img> with automatic fallback to initial emblem
 function renderCharacterVisual(char, imgClass, emblemClass) {
   const initial = char.name.charAt(0);
-  if (!char.image) {
-    return `<div class="${emblemClass}">${initial}</div>`;
-  }
+  const basePath = `./assets/characters/${char.id}`;
   return `
     <img
-      src="${char.image}"
+      src="${basePath}.png"
       alt="${char.name}"
       class="${imgClass}"
       loading="lazy"
-      onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+      data-step="0"
+      onerror="
+        const exts = ['.jpg', '.jpeg', '.webp'];
+        const step = parseInt(this.dataset.step, 10);
+        if (step < exts.length) {
+          this.dataset.step = step + 1;
+          this.src = '${basePath}' + exts[step];
+        } else {
+          this.style.display = 'none';
+          this.nextElementSibling.style.display = 'block';
+        }
+      "
     />
     <div class="${emblemClass}" style="display: none;">${initial}</div>
   `;
