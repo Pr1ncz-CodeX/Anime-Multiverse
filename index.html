@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MULTIVERSE ARCHIVE // 40 Anime Legends</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <!-- Three.js & GSAP via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body>
+  <!-- Persistent Full-Screen WebGL Shader Canvas -->
+  <canvas id="bg-canvas"></canvas>
+  <div class="vignette-overlay"></div>
+
+  <!-- Custom Tactical Cursor -->
+  <div id="custom-cursor"></div>
+
+  <!-- =========================================================
+       VIEW 1: HOME PAGE (THE MULTIVERSE HUB)
+  ========================================================== -->
+  <main id="home-view" class="view active">
+    <header class="hero-header">
+      <div class="sys-tag">// SYSTEM_ONLINE :: MULTIVERSE_ARCHIVE_V4.0</div>
+      <h1 class="main-title">TITANS OF <span class="accent-glow">ANIME</span></h1>
+      <p class="hero-subtitle">
+        Where raw human willpower collides with metaphysical power systems. Explore the five foundational shonen and dark-fantasy realms—from cosmic Ki and Chakra manifestations to Haki, Soul Reaper Reiatsu, and Cursed Energy—and witness the 40 legends who shaped modern storytelling.
+      </p>
+
+      <div class="anime-intro-grid">
+        <div class="glass-card">
+          <span class="card-index">01 // POWER ARCHITECTURE</span>
+          <h3>Metaphysical Combat</h3>
+          <p>Iconic anime universes operate on strict internal laws—where emotional resolve, bloodline inheritance, and spiritual mastery dictate survival.</p>
+        </div>
+        <div class="glass-card">
+          <span class="card-index">02 // IDEOLOGICAL CLASH</span>
+          <h3>Heroes vs. Tyrants</h3>
+          <p>Every legendary protagonist is defined by an equal and opposite force—antagonists whose philosophies threaten the very structure of reality.</p>
+        </div>
+        <div class="glass-card">
+          <span class="card-index">03 // DUAL ARCHIVE</span>
+          <h3>20 Apex + 20 Special</h3>
+          <p>Enter any realm to trigger live WebGL signature shaders across the 4 Apex Legends, scroll into world lore, and unlock the exclusive Special Roster.</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="universes-section">
+      <div class="section-label">// SELECT_REALM_GATEWAY [5 UNIVERSES]</div>
+      <div id="universe-gateways" class="gateways-grid">
+        <!-- Populated dynamically by app.js -->
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================
+       VIEW 2: UNIVERSE PAGE (4 LEGENDS -> LORE -> SPECIAL ARCHIVE)
+  ========================================================== -->
+  <section id="universe-view" class="view hidden">
+    <!-- Floating Top Nav -->
+    <nav class="universe-topbar">
+      <button id="back-home-btn" class="tactical-btn">← MULTIVERSE HUB</button>
+      <div class="universe-badge">
+        <span id="univ-jp-title" class="jp-sub"></span>
+        <span id="univ-main-title" class="univ-name"></span>
+      </div>
+      <div class="shader-status">
+        <span class="pulse-dot"></span>
+        <span id="active-shader-label">AMBIENT_FIELD</span>
+      </div>
+    </nav>
+
+    <!-- TIER A (100vh): 4 MAIN LEGENDS SIDE-BY-SIDE -->
+    <div class="apex-stage">
+      <div class="faction-headers">
+        <span class="faction-tag hero-tag">// APEX HEROES</span>
+        <span class="faction-tag villain-tag">// APEX VILLAINS</span>
+      </div>
+      <div id="main-legends-grid" class="four-column-grid">
+        <!-- 4 Side-by-Side Pillars populated by app.js -->
+      </div>
+      <div class="scroll-cue">
+        <span>HOVER A LEGEND TO UNLEASH SIGNATURE SHADER // SCROLL FOR LORE & SPECIAL ARCHIVE</span>
+        <div class="scroll-arrow">↓</div>
+      </div>
+    </div>
+
+    <!-- TIER B: COMPREHENSIVE ANIME ENCYCLOPEDIA -->
+    <div id="anime-lore-container" class="lore-wrapper">
+      <!-- Populated dynamically by app.js -->
+    </div>
+
+    <!-- TIER C: EXCLUSIVE SPECIAL ARCHIVE (ZERO OVERLAP) -->
+    <div class="special-archive-wrapper">
+      <button id="toggle-special-btn" class="special-trigger-btn">
+        <span class="trigger-icon">+</span>
+        <span id="special-btn-text">UNLOCK SPECIAL ARCHIVE: ICONIC FIGURES (4)</span>
+      </button>
+      <div id="special-legends-grid" class="special-grid collapsed">
+        <!-- 4 Exclusive Special Cards populated by app.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       VIEW 3: CHARACTER DEEP-DIVE DOSSIER DRAWER
+  ========================================================== -->
+  <aside id="dossier-modal" class="dossier-overlay hidden">
+    <div class="dossier-panel glass-panel">
+      <button id="close-dossier-btn" class="close-btn">✕ CLOSE DOSSIER</button>
+      <div id="dossier-content">
+        <!-- Populated dynamically for any of the 40 characters -->
+      </div>
+    </div>
+  </aside>
+
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
