@@ -18,9 +18,13 @@ const dossierContent = document.getElementById('dossier-content');
 const closeDossierBtn = document.getElementById('close-dossier-btn');
 
 const cursor = document.getElementById('custom-cursor');
+const isTouchDevice = () => window.matchMedia('(hover: none), (pointer: coarse)').matches;
+
 window.addEventListener('mousemove', (e) => {
-  cursor.style.left = `${e.clientX}px`;
-  cursor.style.top = `${e.clientY}px`;
+  if (!isTouchDevice()) {
+    cursor.style.left = `${e.clientX}px`;
+    cursor.style.top = `${e.clientY}px`;
+  }
 });
 
 function setAccentColor(hex) {
@@ -48,6 +52,7 @@ function renderHomeGateways() {
     `;
 
     card.addEventListener('mouseenter', () => {
+      if (isTouchDevice()) return;
       cursor.classList.add('hovering');
       setAccentColor(anime.themeColor);
       shader.setState({
@@ -59,6 +64,7 @@ function renderHomeGateways() {
     });
 
     card.addEventListener('mouseleave', () => {
+      if (isTouchDevice()) return;
       cursor.classList.remove('hovering');
       setAccentColor('#00f0ff');
       shader.setState({
@@ -79,10 +85,15 @@ function renderHomeGateways() {
 // =====================================================================
 let currentAnime = null;
 let isSpecialOpen = false;
+let mobileObserver = null;
 
 function openUniverse(anime) {
   currentAnime = anime;
   isSpecialOpen = false;
+
+  if (mobileObserver) {
+    mobileObserver.disconnect();
+  }
 
   setAccentColor(anime.themeColor);
   shader.setState({
@@ -96,7 +107,7 @@ function openUniverse(anime) {
   document.getElementById('univ-main-title').textContent = anime.title.toUpperCase();
   document.getElementById('active-shader-label').textContent = `${anime.id.toUpperCase()}_AMBIENT`;
 
-  // TIER A: 4 Main Legends Side-by-Side
+  // TIER A: 4 Main Legends
   mainLegendsGrid.innerHTML = '';
   anime.mainLegends.forEach((char, idx) => {
     const pillar = document.createElement('div');
@@ -108,7 +119,7 @@ function openUniverse(anime) {
       <div class="pillar-bg-glow"></div>
       <div class="pillar-top">
         <span class="role-pill ${roleClass}">${char.role.toUpperCase()} // 0${idx + 1}</span>
-        <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">APEX</span>
+        <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted);">APEX</span>
       </div>
       <div class="pillar-visual">
         <div class="pillar-emblem">${char.name.charAt(0)}</div>
@@ -121,6 +132,7 @@ function openUniverse(anime) {
     `;
 
     pillar.addEventListener('mouseenter', () => {
+      if (isTouchDevice()) return;
       cursor.classList.add('hovering');
       document.getElementById('active-shader-label').textContent = `TECHNIQUE // ${char.name.toUpperCase()}`;
       shader.setState({
@@ -132,6 +144,7 @@ function openUniverse(anime) {
     });
 
     pillar.addEventListener('mouseleave', () => {
+      if (isTouchDevice()) return;
       cursor.classList.remove('hovering');
       document.getElementById('active-shader-label').textContent = `${anime.id.toUpperCase()}_AMBIENT`;
       shader.setState({
@@ -142,8 +155,38 @@ function openUniverse(anime) {
       });
     });
 
-    pillar.addEventListener('click', () => openDossier(char, anime.title, 'APEX LEGEND'));
+    pillar.addEventListener('click', () => {
+      shader.setState({
+        colorA: char.color,
+        colorB: anime.secondaryColor,
+        mode: char.shaderMode,
+        intensity: 0.95
+      });
+      openDossier(char, anime.title, 'APEX LEGEND');
+    });
+
     mainLegendsGrid.appendChild(pillar);
+
+    // Mobile scroll observer: shifts background shader as user scrolls through pillars
+    if (isTouchDevice()) {
+      if (!mobileObserver) {
+        mobileObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const targetChar = entry.target._charData;
+              shader.setState({
+                colorA: targetChar.color,
+                colorB: anime.secondaryColor,
+                mode: targetChar.shaderMode,
+                intensity: 0.85
+              });
+            }
+          });
+        }, { threshold: 0.65 });
+      }
+      pillar._charData = char;
+      mobileObserver.observe(pillar);
+    }
   });
 
   // TIER B: Comprehensive Anime Lore
@@ -168,7 +211,7 @@ function openUniverse(anime) {
     </div>
   `;
 
-  // TIER C: Exclusive Special Archive (Zero Overlap)
+  // TIER C: Exclusive Special Archive
   specialLegendsGrid.classList.add('collapsed');
   specialBtnText.textContent = `UNLOCK SPECIAL ARCHIVE: ICONIC FIGURES (${anime.specialLegends.length})`;
   document.querySelector('.trigger-icon').textContent = '+';
@@ -195,6 +238,7 @@ function openUniverse(anime) {
     `;
 
     sCard.addEventListener('mouseenter', () => {
+      if (isTouchDevice()) return;
       cursor.classList.add('hovering');
       shader.setState({
         colorA: char.color,
@@ -205,6 +249,7 @@ function openUniverse(anime) {
     });
 
     sCard.addEventListener('mouseleave', () => {
+      if (isTouchDevice()) return;
       cursor.classList.remove('hovering');
       shader.setState({
         colorA: anime.themeColor,
@@ -214,7 +259,16 @@ function openUniverse(anime) {
       });
     });
 
-    sCard.addEventListener('click', () => openDossier(char, anime.title, 'SPECIAL ARCHIVE'));
+    sCard.addEventListener('click', () => {
+      shader.setState({
+        colorA: char.color,
+        colorB: anime.secondaryColor,
+        mode: 1,
+        intensity: 0.85
+      });
+      openDossier(char, anime.title, 'SPECIAL ARCHIVE');
+    });
+
     specialLegendsGrid.appendChild(sCard);
   });
 
@@ -239,6 +293,9 @@ toggleSpecialBtn.addEventListener('click', () => {
 });
 
 backHomeBtn.addEventListener('click', () => {
+  if (mobileObserver) {
+    mobileObserver.disconnect();
+  }
   universeView.classList.add('hidden');
   universeView.classList.remove('active');
   homeView.classList.remove('hidden');
@@ -265,9 +322,9 @@ function openDossier(char, animeTitle, tierLabel) {
     .join('');
 
   dossierContent.innerHTML = `
-    <div style="display: flex; gap: 0.6rem; align-items: center; margin-bottom: 0.5rem;">
+    <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; margin-bottom: 0.5rem;">
       <span class="role-pill ${roleClass}">${char.role.toUpperCase()}</span>
-      <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">${animeTitle.toUpperCase()} // ${tierLabel}</span>
+      <span style="font-family: var(--font-mono); font-size: 0.74rem; color: var(--text-muted);">${animeTitle.toUpperCase()} // ${tierLabel}</span>
     </div>
     <h2 class="dossier-title" style="color: ${char.color};">${char.name}</h2>
     <span class="pillar-epithet" style="font-size: 0.85rem;">${char.epithet}</span>
@@ -299,6 +356,12 @@ function openDossier(char, animeTitle, tierLabel) {
   `;
 
   dossierModal.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDossier() {
+  dossierModal.classList.add('hidden');
+  document.body.style.overflow = '';
 }
 
 function renderStatBar(label, value, color) {
@@ -315,13 +378,11 @@ function renderStatBar(label, value, color) {
   `;
 }
 
-closeDossierBtn.addEventListener('click', () => {
-  dossierModal.classList.add('hidden');
-});
+closeDossierBtn.addEventListener('click', closeDossier);
 
 dossierModal.addEventListener('click', (e) => {
   if (e.target === dossierModal) {
-    dossierModal.classList.add('hidden');
+    closeDossier();
   }
 });
 

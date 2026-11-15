@@ -1,17 +1,16 @@
-// Persistent WebGL Shader Engine powered by Three.js
 export class ShaderEngine {
   constructor(canvasId) {
     this.canvas = document.getElementById(canvasId);
     this.scene = new THREE.Scene();
     this.camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-    this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: true });
+    this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: false, powerPreference: 'high-performance' });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
     this.mouse = new THREE.Vector2(0.5, 0.5);
     this.targetColorA = new THREE.Color('#00f0ff');
     this.targetColorB = new THREE.Color('#090a14');
-    this.targetMode = 0.0; // 0: Ambient Plasma, 1: Slash/Lightning, 2: Black Hole Vortex, 3: Solar Flare
+    this.targetMode = 0.0;
     this.targetIntensity = 0.65;
 
     this.uniforms = {
@@ -42,7 +41,6 @@ export class ShaderEngine {
       uniform float uIntensity;
       varying vec2 vUv;
 
-      // Simplex-style hash & noise
       float hash(vec2 p) {
         return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
       }
@@ -62,7 +60,7 @@ export class ShaderEngine {
         float v = 0.0;
         float a = 0.5;
         mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.5));
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 4; i++) {
           v += a * noise(p);
           p = rot * p * 2.05 + vec2(1.7, 9.2);
           a *= 0.5;
@@ -75,20 +73,16 @@ export class ShaderEngine {
         vec2 m = (uMouse - 0.5) * 0.6;
         float dist = length(uv - m);
 
-        // Base flowing energy field
         float n1 = fbm(uv * 3.0 + vec2(uTime * 0.18, -uTime * 0.14));
         float n2 = fbm(uv * 5.5 - n1 * 1.8 + uTime * 0.25);
 
-        // Mode 1: High-frequency Slash / Lightning arcs (Sukuna, Ichigo, Sasuke, Zoro)
         float angle = atan(uv.y - m.y, uv.x - m.x);
         float slash = smoothstep(0.96, 1.0, sin(uv.x * 18.0 + uv.y * 12.0 + n2 * 8.0 + uTime * 5.0));
         float bolts = smoothstep(0.92, 1.0, abs(sin(angle * 6.0 + n1 * 10.0 + uTime * 3.0))) * exp(-dist * 2.2);
 
-        // Mode 2: Gravitational Lensing / Domain Vortex (Gojo, Blackbeard, Obito, Madara)
         float ring = smoothstep(0.06, 0.0, abs(dist - 0.28 - 0.04 * sin(uTime * 3.0 + angle * 4.0)));
         float swirl = fbm(vec2(dist * 8.0 - uTime * 0.9, angle * 2.0));
 
-        // Mode 3: Rising Solar / Aura Shockwaves (Goku, Naruto, Luffy, Kenpachi)
         float aura = fbm(vec2(uv.x * 4.0, uv.y * 2.5 - uTime * 0.85));
         float shock = smoothstep(0.04, 0.0, abs(fract(dist * 2.5 - uTime * 0.45) - 0.5));
 
@@ -101,7 +95,6 @@ export class ShaderEngine {
           effect += (aura * 0.9 + shock * 0.45);
         }
 
-        // Mouse proximity energy boost
         effect += exp(-dist * 3.2) * 0.35;
 
         vec3 col = mix(vec3(0.015, 0.016, 0.028), uColorB, n1);
@@ -126,6 +119,12 @@ export class ShaderEngine {
       this.mouse.x = e.clientX / window.innerWidth;
       this.mouse.y = 1.0 - e.clientY / window.innerHeight;
     });
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) {
+        this.mouse.x = e.touches[0].clientX / window.innerWidth;
+        this.mouse.y = 1.0 - e.touches[0].clientY / window.innerHeight;
+      }
+    }, { passive: true });
 
     this.animate();
   }
