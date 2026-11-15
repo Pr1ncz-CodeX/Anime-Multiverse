@@ -1,10 +1,8 @@
 import { ANIME_DATA } from './data.js';
 import { ShaderEngine } from './shaderEngine.js';
 
-// Initialize Persistent WebGL Canvas
 const shader = new ShaderEngine('bg-canvas');
 
-// DOM References
 const homeView = document.getElementById('home-view');
 const universeView = document.getElementById('universe-view');
 const gatewaysGrid = document.getElementById('universe-gateways');
@@ -15,12 +13,10 @@ const toggleSpecialBtn = document.getElementById('toggle-special-btn');
 const specialBtnText = document.getElementById('special-btn-text');
 const backHomeBtn = document.getElementById('back-home-btn');
 
-// Dossier References
 const dossierModal = document.getElementById('dossier-modal');
 const dossierContent = document.getElementById('dossier-content');
 const closeDossierBtn = document.getElementById('close-dossier-btn');
 
-// Custom Tactical Cursor
 const cursor = document.getElementById('custom-cursor');
 window.addEventListener('mousemove', (e) => {
   cursor.style.left = `${e.clientX}px`;
@@ -29,6 +25,24 @@ window.addEventListener('mousemove', (e) => {
 
 function setAccentColor(hex) {
   document.documentElement.style.setProperty('--accent', hex);
+}
+
+// Helper: Renders portrait <img> with automatic fallback to initial emblem
+function renderCharacterVisual(char, imgClass, emblemClass) {
+  const initial = char.name.charAt(0);
+  if (!char.image) {
+    return `<div class="${emblemClass}">${initial}</div>`;
+  }
+  return `
+    <img
+      src="${char.image}"
+      alt="${char.name}"
+      class="${imgClass}"
+      loading="lazy"
+      onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+    />
+    <div class="${emblemClass}" style="display: none;">${initial}</div>
+  `;
 }
 
 // =====================================================================
@@ -51,7 +65,6 @@ function renderHomeGateways() {
       <div class="enter-prompt">[ ENTER REALM → ]</div>
     `;
 
-    // Hover: Morph WebGL background to anime's ambient energy
     card.addEventListener('mouseenter', () => {
       cursor.classList.add('hovering');
       setAccentColor(anime.themeColor);
@@ -74,9 +87,7 @@ function renderHomeGateways() {
       });
     });
 
-    // Click: Open Universe Page
     card.addEventListener('click', () => openUniverse(anime));
-
     gatewaysGrid.appendChild(card);
   });
 }
@@ -91,7 +102,6 @@ function openUniverse(anime) {
   currentAnime = anime;
   isSpecialOpen = false;
 
-  // Update Theme & Shader
   setAccentColor(anime.themeColor);
   shader.setState({
     colorA: anime.themeColor,
@@ -100,7 +110,6 @@ function openUniverse(anime) {
     intensity: 0.65
   });
 
-  // Topbar Labels
   document.getElementById('univ-jp-title').textContent = anime.jpTitle;
   document.getElementById('univ-main-title').textContent = anime.title.toUpperCase();
   document.getElementById('active-shader-label').textContent = `${anime.id.toUpperCase()}_AMBIENT`;
@@ -119,7 +128,9 @@ function openUniverse(anime) {
         <span class="role-pill ${roleClass}">${char.role.toUpperCase()} // 0${idx + 1}</span>
         <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">APEX</span>
       </div>
-      <div class="pillar-emblem">${char.name.charAt(0)}</div>
+      <div class="pillar-visual">
+        ${renderCharacterVisual(char, 'pillar-portrait', 'pillar-emblem')}
+      </div>
       <div class="pillar-bottom">
         <span class="pillar-epithet">${char.epithet}</span>
         <h3 class="pillar-name">${char.name}</h3>
@@ -127,7 +138,6 @@ function openUniverse(anime) {
       </div>
     `;
 
-    // HOVER FLEX: Fire character's signature WebGL shader in full background
     pillar.addEventListener('mouseenter', () => {
       cursor.classList.add('hovering');
       document.getElementById('active-shader-label').textContent = `TECHNIQUE // ${char.name.toUpperCase()}`;
@@ -150,9 +160,7 @@ function openUniverse(anime) {
       });
     });
 
-    // CLICK: Open Deep-Dive Character Dossier
     pillar.addEventListener('click', () => openDossier(char, anime.title, 'APEX LEGEND'));
-
     mainLegendsGrid.appendChild(pillar);
   });
 
@@ -191,10 +199,17 @@ function openUniverse(anime) {
 
     const roleClass = char.role.toLowerCase();
     sCard.innerHTML = `
-      <span class="role-pill ${roleClass}">${char.role.toUpperCase()} // SPECIAL</span>
-      <h4>${char.name}</h4>
-      <span class="pillar-epithet">${char.epithet}</span>
-      <p style="margin-top: 0.6rem;">⚡ ${char.signatureMove}</p>
+      <div>
+        <span class="role-pill ${roleClass}">${char.role.toUpperCase()} // SPECIAL</span>
+      </div>
+      <div class="special-visual">
+        ${renderCharacterVisual(char, 'special-portrait', 'special-emblem')}
+      </div>
+      <div>
+        <h4>${char.name}</h4>
+        <span class="pillar-epithet">${char.epithet}</span>
+        <p style="margin-top: 0.5rem;">⚡ ${char.signatureMove}</p>
+      </div>
     `;
 
     sCard.addEventListener('mouseenter', () => {
@@ -221,7 +236,6 @@ function openUniverse(anime) {
     specialLegendsGrid.appendChild(sCard);
   });
 
-  // Switch Views
   homeView.classList.add('hidden');
   homeView.classList.remove('active');
   universeView.classList.remove('hidden');
@@ -229,7 +243,6 @@ function openUniverse(anime) {
   window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
-// Toggle Special Archive Accordion
 toggleSpecialBtn.addEventListener('click', () => {
   isSpecialOpen = !isSpecialOpen;
   if (isSpecialOpen) {
@@ -243,7 +256,6 @@ toggleSpecialBtn.addEventListener('click', () => {
   }
 });
 
-// Back to Multiverse Hub
 backHomeBtn.addEventListener('click', () => {
   universeView.classList.add('hidden');
   universeView.classList.remove('active');
@@ -260,7 +272,7 @@ backHomeBtn.addEventListener('click', () => {
 });
 
 // =====================================================================
-// 3. VIEW 3: CHARACTER DEEP-DIVE DOSSIER MODAL (ALL 40 LEGENDS)
+// 3. VIEW 3: CHARACTER DEEP-DIVE DOSSIER MODAL
 // =====================================================================
 function openDossier(char, animeTitle, tierLabel) {
   dossierModal.style.setProperty('--char-color', char.color);
@@ -271,12 +283,17 @@ function openDossier(char, animeTitle, tierLabel) {
     .join('');
 
   dossierContent.innerHTML = `
-    <div style="display: flex; gap: 0.6rem; align-items: center; margin-bottom: 0.5rem;">
-      <span class="role-pill ${roleClass}">${char.role.toUpperCase()}</span>
-      <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">${animeTitle.toUpperCase()} // ${tierLabel}</span>
+    <div class="dossier-header-flex">
+      <div>
+        <div style="display: flex; gap: 0.6rem; align-items: center; margin-bottom: 0.5rem;">
+          <span class="role-pill ${roleClass}">${char.role.toUpperCase()}</span>
+          <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">${animeTitle.toUpperCase()} // ${tierLabel}</span>
+        </div>
+        <h2 class="dossier-title" style="color: ${char.color};">${char.name}</h2>
+        <span class="pillar-epithet" style="font-size: 0.85rem;">${char.epithet}</span>
+      </div>
+      ${char.image ? `<img src="${char.image}" alt="${char.name}" class="dossier-portrait" onerror="this.style.display='none'" />` : ''}
     </div>
-    <h2 class="dossier-title" style="color: ${char.color};">${char.name}</h2>
-    <span class="pillar-epithet" style="font-size: 0.85rem;">${char.epithet}</span>
 
     <blockquote class="dossier-quote">"${char.quote}"</blockquote>
 
@@ -331,5 +348,4 @@ dossierModal.addEventListener('click', (e) => {
   }
 });
 
-// Boot Application
 renderHomeGateways();

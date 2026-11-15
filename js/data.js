@@ -10,7 +10,7 @@ export const ANIME_DATA = [
     era: "1986 – Present",
     themeColor: "#f59e0b",
     secondaryColor: "#1e1b08",
-    shaderMode: 3, // Solar Aura
+    shaderMode: 3,
     tagline: "Cosmic Martial Arts & Limit-Breaking Ki",
     lore: {
       origin: "Created by Akira Toriyama, Dragon Ball established the modern shonen blueprint—evolving from a mystical martial-arts adventure into an intergalactic clash of gods, Saiyans, and universe-shattering transformations.",
@@ -21,6 +21,7 @@ export const ANIME_DATA = [
       {
         id: "goku",
         name: "Son Goku",
+        image: "./assets/characters/goku.png",
         role: "Hero",
         epithet: "The Saiyan Raised on Earth",
         color: "#38bdf8",
@@ -35,6 +36,7 @@ export const ANIME_DATA = [
       {
         id: "vegeta",
         name: "Vegeta",
+        image: "./assets/characters/vegeta.png",
         role: "Hero",
         epithet: "Prince of All Saiyans",
         color: "#a855f7",
@@ -49,6 +51,7 @@ export const ANIME_DATA = [
       {
         id: "frieza",
         name: "Frieza",
+        image: "./assets/characters/frieza.png",
         role: "Villain",
         epithet: "Emperor of the Universe",
         color: "#e879f9",
@@ -63,6 +66,7 @@ export const ANIME_DATA = [
       {
         id: "broly",
         name: "Broly",
+        image: "./assets/characters/broly.png",
         role: "Villain",
         epithet: "The Legendary Super Saiyan",
         color: "#22c55e",
@@ -79,6 +83,7 @@ export const ANIME_DATA = [
       {
         id: "gohan",
         name: "Son Gohan",
+        image: "./assets/characters/gohan.png",
         role: "Hero",
         epithet: "Gohan Beast",
         color: "#f43f5e",
@@ -92,6 +97,7 @@ export const ANIME_DATA = [
       {
         id: "future-trunks",
         name: "Future Trunks",
+        image: "./assets/characters/future-trunks.png",
         role: "Hero",
         epithet: "The Hope of the Future",
         color: "#38bdf8",
@@ -105,6 +111,7 @@ export const ANIME_DATA = [
       {
         id: "piccolo",
         name: "Piccolo",
+        image: "./assets/characters/piccolo.png",
         role: "Hero",
         epithet: "Orange Piccolo",
         color: "#fb923c",
@@ -118,6 +125,7 @@ export const ANIME_DATA = [
       {
         id: "cell",
         name: "Cell",
+        image: "./assets/characters/cell.png",
         role: "Villain",
         epithet: "The Ultimate Bio-Android",
         color: "#10b981",
@@ -153,6 +161,7 @@ export const ANIME_DATA = [
       {
         id: "naruto-uzumaki",
         name: "Naruto Uzumaki",
+        image: "./assets/characters/naruto-uzumaki.png",
         role: "Hero",
         epithet: "The Seventh Hokage // Child of Prophecy",
         color: "#fb923c",
@@ -167,6 +176,7 @@ export const ANIME_DATA = [
       {
         id: "sasuke-uchiha",
         name: "Sasuke Uchiha",
+        image: "./assets/characters/sasuke-uchiha.png",
         role: "Hero",
         epithet: "The Shadow Hokage",
         color: "#a855f7",
@@ -181,6 +191,7 @@ export const ANIME_DATA = [
       {
         id: "madara-uchiha",
         name: "Madara Uchiha",
+        image: "./assets/characters/madara-uchiha.png",
         role: "Villain",
         epithet: "Ghost of the Uchiha",
         color: "#ef4444",
@@ -195,6 +206,7 @@ export const ANIME_DATA = [
       {
         id: "obito-uchiha",
         name: "Obito Uchiha",
+        image: "./assets/characters/obito-uchiha.png",
         role: "Villain",
         epithet: "The Masked Man // Tobi",
         color: "#f43f5e",
@@ -211,6 +223,7 @@ export const ANIME_DATA = [
       {
         id: "itachi-uchiha",
         name: "Itachi Uchiha",
+        image: "./assets/characters/itachi-uchiha.png",
         role: "Hero",
         epithet: "The Clan Killer // True Shinobi",
         color: "#dc2626",
@@ -224,6 +237,7 @@ export const ANIME_DATA = [
       {
         id: "kakashi-hatake",
         name: "Kakashi Hatake",
+        image: "./assets/characters/kakashi-hatake.png",
         role: "Hero",
         epithet: "The Copy Ninja // Sixth Hokage",
         color: "#38bdf8",
@@ -237,6 +251,7 @@ export const ANIME_DATA = [
       {
         id: "pain-nagato",
         name: "Pain (Nagato)",
+        image: "./assets/characters/pain-nagato.png",
         role: "Villain",
         epithet: "Leader of the Akatsuki // God of Rain",
         color: "#8b5cf6",
@@ -250,6 +265,7 @@ export const ANIME_DATA = [
       {
         id: "minato-namikaze",
         name: "Minato Namikaze",
+        image: "./assets/characters/minato-namikaze.png",
         role: "Hero",
         epithet: "The Yellow Flash of the Leaf",
         color: "#facc15",
@@ -285,6 +301,7 @@ export const ANIME_DATA = [
       {
         id: "luffy",
         name: "Monkey D. Luffy",
+        image: "./assets/characters/luffy.png",
         role: "Hero",
         epithet: "Sun God Nika // Emperor of the Sea",
         color: "#f8fafc",
@@ -299,6 +316,7 @@ export const ANIME_DATA = [
       {
         id: "zoro",
         name: "Roronoa Zoro",
+        image: "./assets/characters/zoro.png",
         role: "Hero",
         epithet: "King of Hell // Pirate Hunter",
         color: "#10b981",
@@ -313,6 +331,7 @@ export const ANIME_DATA = [
       {
         id: "kaido",
         name: "Kaido",
+        image: "./assets/characters/kaido.png",
         role: "Villain",
         epithet: "King of the Beasts // Strongest Creature",
         color: "#38bdf8",
@@ -327,6 +346,7 @@ export const ANIME_DATA = [
       {
         id: "blackbeard",
         name: "Marshall D. Teach",
+        image: "./assets/characters/blackbeard.png",
         role: "Villain",
         epithet: "Blackbeard // Emperor of Darkness",
         color: "#6366f1",
@@ -343,6 +363,7 @@ export const ANIME_DATA = [
       {
         id: "shanks",
         name: "Red-Haired Shanks",
+        image: "./assets/characters/shanks.png",
         role: "Hero",
         epithet: "Killer of Observation Haki",
         color: "#ef4444",
@@ -356,6 +377,7 @@ export const ANIME_DATA = [
       {
         id: "law",
         name: "Trafalgar D. Water Law",
+        image: "./assets/characters/law.png",
         role: "Hero",
         epithet: "Surgeon of Death",
         color: "#facc15",
@@ -369,6 +391,7 @@ export const ANIME_DATA = [
       {
         id: "ace",
         name: "Portgas D. Ace",
+        image: "./assets/characters/ace.png",
         role: "Hero",
         epithet: "Fire Fist Ace",
         color: "#f97316",
@@ -382,6 +405,7 @@ export const ANIME_DATA = [
       {
         id: "doflamingo",
         name: "Donquixote Doflamingo",
+        image: "./assets/characters/doflamingo.png",
         role: "Villain",
         epithet: "Heavenly Yaksha",
         color: "#ec4899",
@@ -417,6 +441,7 @@ export const ANIME_DATA = [
       {
         id: "ichigo",
         name: "Ichigo Kurosaki",
+        image: "./assets/characters/ichigo.png",
         role: "Hero",
         epithet: "Substitute Soul Reaper // Hybrid Transcendent",
         color: "#00f0ff",
@@ -431,6 +456,7 @@ export const ANIME_DATA = [
       {
         id: "kenpachi",
         name: "Kenpachi Zaraki",
+        image: "./assets/characters/kenpachi.png",
         role: "Hero",
         epithet: "Captain of Squad 11 // The True Kenpachi",
         color: "#facc15",
@@ -445,6 +471,7 @@ export const ANIME_DATA = [
       {
         id: "aizen",
         name: "Sosuke Aizen",
+        image: "./assets/characters/aizen.png",
         role: "Villain",
         epithet: "The Transcendent Mastermind",
         color: "#a855f7",
@@ -459,6 +486,7 @@ export const ANIME_DATA = [
       {
         id: "yhwach",
         name: "Yhwach",
+        image: "./assets/characters/yhwach.png",
         role: "Villain",
         epithet: "Father of the Quincy // The Almighty",
         color: "#ef4444",
@@ -475,6 +503,7 @@ export const ANIME_DATA = [
       {
         id: "byakuya",
         name: "Byakuya Kuchiki",
+        image: "./assets/characters/byakuya.png",
         role: "Hero",
         epithet: "Captain of Squad 6",
         color: "#f472b6",
@@ -488,6 +517,7 @@ export const ANIME_DATA = [
       {
         id: "urahara",
         name: "Kisuke Urahara",
+        image: "./assets/characters/urahara.png",
         role: "Hero",
         epithet: "The Unknown Means // Former Squad 12 Captain",
         color: "#22c55e",
@@ -501,6 +531,7 @@ export const ANIME_DATA = [
       {
         id: "ulquiorra",
         name: "Ulquiorra Cifer",
+        image: "./assets/characters/ulquiorra.png",
         role: "Villain",
         epithet: "Cuatro Espada // Aspect of Nihilism",
         color: "#10b981",
@@ -514,6 +545,7 @@ export const ANIME_DATA = [
       {
         id: "grimmjow",
         name: "Grimmjow Jaegerjaquez",
+        image: "./assets/characters/grimmjow.png",
         role: "Villain",
         epithet: "Sexta Espada // Panther King",
         color: "#38bdf8",
@@ -549,6 +581,7 @@ export const ANIME_DATA = [
       {
         id: "gojo",
         name: "Satoru Gojo",
+        image: "./assets/characters/gojo.png",
         role: "Hero",
         epithet: "The Strongest Jujutsu Sorcerer",
         color: "#00f0ff",
@@ -563,6 +596,7 @@ export const ANIME_DATA = [
       {
         id: "yuji",
         name: "Yuji Itadori",
+        image: "./assets/characters/yuji.png",
         role: "Hero",
         epithet: "Vessel of Sukuna // Prince of Black Flash",
         color: "#f43f5e",
@@ -577,6 +611,7 @@ export const ANIME_DATA = [
       {
         id: "sukuna",
         name: "Ryomen Sukuna",
+        image: "./assets/characters/sukuna.png",
         role: "Villain",
         epithet: "The King of Curses // The Disgraced One",
         color: "#ef4444",
@@ -591,6 +626,7 @@ export const ANIME_DATA = [
       {
         id: "kenjaku",
         name: "Kenjaku",
+        image: "./assets/characters/kenjaku.png",
         role: "Villain",
         epithet: "The Thousand-Year Mastermind",
         color: "#a855f7",
@@ -607,6 +643,7 @@ export const ANIME_DATA = [
       {
         id: "megumi",
         name: "Megumi Fushiguro",
+        image: "./assets/characters/megumi.png",
         role: "Hero",
         epithet: "Inheritor of the Ten Shadows",
         color: "#38bdf8",
@@ -620,6 +657,7 @@ export const ANIME_DATA = [
       {
         id: "toji",
         name: "Toji Fushiguro",
+        image: "./assets/characters/toji.png",
         role: "Villain",
         epithet: "The Sorcerer Killer // Ghost of the Zenin",
         color: "#10b981",
@@ -633,6 +671,7 @@ export const ANIME_DATA = [
       {
         id: "yuta",
         name: "Yuta Okkotsu",
+        image: "./assets/characters/yuta.png",
         role: "Hero",
         epithet: "The Prodigy // Second Only to Gojo",
         color: "#e2e8f0",
@@ -646,6 +685,7 @@ export const ANIME_DATA = [
       {
         id: "mahito",
         name: "Mahito",
+        image: "./assets/characters/mahito.png",
         role: "Villain",
         epithet: "The Mirror of Humanity",
         color: "#6366f1",

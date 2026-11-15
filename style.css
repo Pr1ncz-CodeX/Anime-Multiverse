@@ -26,7 +26,6 @@ body {
   min-height: 100vh;
 }
 
-/* Persistent WebGL Canvas */
 #bg-canvas {
   position: fixed;
   top: 0;
@@ -45,7 +44,6 @@ body {
   pointer-events: none;
 }
 
-/* Custom Tactical Cursor */
 #custom-cursor {
   position: fixed;
   width: 22px;
@@ -65,7 +63,6 @@ body {
   background: rgba(255, 255, 255, 0.06);
 }
 
-/* View Management */
 .view {
   width: 100%;
   min-height: 100vh;
@@ -154,7 +151,6 @@ body {
   line-height: 1.6;
 }
 
-/* 5 Universe Gateways */
 .universes-section {
   max-width: 1280px;
   margin: 0 auto;
@@ -302,7 +298,6 @@ body {
   50% { opacity: 0.4; transform: scale(0.8); }
 }
 
-/* 100vh Stage */
 .apex-stage {
   min-height: 100vh;
   padding: 5.5rem 2rem 2rem;
@@ -333,7 +328,6 @@ body {
   min-height: 68vh;
 }
 
-/* Dimming siblings when one pillar is hovered */
 .four-column-grid:hover .legend-pillar {
   opacity: 0.35;
   filter: blur(1.5px);
@@ -365,21 +359,21 @@ body {
 .pillar-bg-glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 25%, var(--char-color, #00f0ff), transparent 72%);
+  background: radial-gradient(circle at 50% 35%, var(--char-color, #00f0ff), transparent 72%);
   opacity: 0.14;
   pointer-events: none;
   transition: opacity 0.35s ease;
 }
 
 .legend-pillar:hover .pillar-bg-glow {
-  opacity: 0.34;
+  opacity: 0.38;
 }
 
 .pillar-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 2;
+  z-index: 3;
 }
 
 .role-pill {
@@ -403,6 +397,38 @@ body {
   border: 1px solid rgba(244, 63, 94, 0.35);
 }
 
+/* =========================================================
+   CHARACTER PORTRAIT RENDERS & AURA DROP-SHADOWS
+========================================================= */
+.pillar-visual {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5rem 0;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.pillar-portrait {
+  width: 100%;
+  max-height: 330px;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 0 14px color-mix(in srgb, var(--char-color, #00f0ff) 55%, transparent));
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), filter 0.35s ease;
+  user-select: none;
+  pointer-events: none;
+}
+
+.legend-pillar:hover .pillar-portrait {
+  transform: scale(1.07) translateY(-4px);
+  filter:
+    drop-shadow(0 0 22px var(--char-color, #00f0ff))
+    drop-shadow(0 0 42px color-mix(in srgb, var(--char-color, #00f0ff) 65%, transparent));
+}
+
 .pillar-emblem {
   font-family: var(--font-display);
   font-size: 4.5rem;
@@ -410,17 +436,24 @@ body {
   text-align: center;
   color: rgba(255, 255, 255, 0.08);
   user-select: none;
-  transition: color 0.35s ease, transform 0.35s ease;
+  transition: color 0.35s ease, transform 0.35s ease, text-shadow 0.35s ease;
 }
 
 .legend-pillar:hover .pillar-emblem {
   color: var(--char-color, var(--accent));
-  opacity: 0.38;
+  opacity: 0.5;
   transform: scale(1.08);
+  text-shadow: 0 0 30px var(--char-color, var(--accent));
 }
 
 .pillar-bottom {
-  z-index: 2;
+  position: relative;
+  z-index: 3;
+  background: linear-gradient(to top, rgba(8, 9, 15, 0.94) 55%, transparent);
+  padding-top: 1.2rem;
+  margin: 0 -0.4rem -0.4rem;
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
 }
 
 .pillar-epithet {
@@ -566,21 +599,59 @@ body {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   border-radius: 12px;
-  padding: 1.5rem;
+  padding: 1.4rem;
   cursor: pointer;
   backdrop-filter: blur(12px);
-  transition: transform 0.3s, border-color 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
 }
 
 .special-card:hover {
   transform: translateY(-5px);
   border-color: var(--char-color, var(--accent));
+  box-shadow: 0 12px 35px -10px color-mix(in srgb, var(--char-color, var(--accent)) 45%, transparent);
+}
+
+.special-visual {
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.75rem 0;
+  overflow: hidden;
+}
+
+.special-portrait {
+  max-height: 145px;
+  max-width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--char-color, #00f0ff) 60%, transparent));
+  transition: transform 0.35s ease, filter 0.35s ease;
+}
+
+.special-card:hover .special-portrait {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 22px var(--char-color, #00f0ff));
+}
+
+.special-emblem {
+  font-family: var(--font-display);
+  font-size: 3.2rem;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.12);
+  transition: color 0.3s ease;
+}
+
+.special-card:hover .special-emblem {
+  color: var(--char-color, var(--accent));
 }
 
 .special-card h4 {
   font-family: var(--font-display);
   font-size: 1.3rem;
-  margin: 0.5rem 0 0.3rem;
+  margin: 0.35rem 0 0.25rem;
 }
 
 .special-card p {
@@ -632,6 +703,21 @@ body {
 .close-btn:hover {
   border-color: var(--villain-color);
   color: var(--villain-color);
+}
+
+.dossier-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.dossier-portrait {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 18px var(--char-color, var(--accent)));
+  flex-shrink: 0;
 }
 
 .dossier-title {
